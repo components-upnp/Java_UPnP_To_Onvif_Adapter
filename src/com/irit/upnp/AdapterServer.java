@@ -18,7 +18,6 @@ public class AdapterServer implements Runnable {
 
     private LocalService<RemoteControlService> remoteControlService;
     private LocalService<ToOnvifService> toOnvifService;
-    private LocalService<TestService> testService;
 
     @Override
     public void run() {
@@ -98,18 +97,11 @@ public class AdapterServer implements Runnable {
                 new DefaultServiceManager(toOnvifService, ToOnvifService.class)
         );
 
-        testService =
-                new AnnotationLocalServiceBinder().read(TestService.class);
-        testService.setManager(
-                new DefaultServiceManager(testService, testService.getClass())
-        );
-
-
 
 
         return new LocalDevice(
                 identity, type, details,
-                new LocalService[] {remoteControlService, toOnvifService, testService}
+                new LocalService[] {remoteControlService, toOnvifService}
         );
     }
     public static void pause(long ms){
