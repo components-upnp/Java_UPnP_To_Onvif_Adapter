@@ -24,6 +24,13 @@ public class AdapterServer implements Runnable {
 
         final UpnpService upnpService = new UpnpServiceImpl();
 
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                upnpService.shutdown();
+            }
+        });
+
         try {
             upnpService.getRegistry().addDevice(
                     createDevice()
