@@ -4,15 +4,17 @@ import com.irit.upnp.AdapterServer;
 import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by mkostiuk on 31/05/2017.
  */
 public class TestConversion extends TestCase {
 
-    Subscription subTonOnvifService;
-    Subscription subRemoteControlService;
-    Thread app;
+    private Subscription subTonOnvifService;
+    private Subscription subRemoteControlService;
+    private Thread app;
+    private String commande = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><TelecommandeEleve xmlns=\"/\"><UDN>lol</UDN><Commande>DROITE</Commande></TelecommandeEleve>";
 
     @Before
     public void setUp() {
@@ -38,5 +40,18 @@ public class TestConversion extends TestCase {
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         }
+    }
+
+    @Test
+    public void testConversionDroite() {
+        pause(2000);
+        subRemoteControlService.executeAction(
+                "SetCommande",
+                "NewCommande",
+                commande
+        );
+        pause(2000);
+        assertEquals("1", subTonOnvifService.getXs().get(2));
+        assertEquals("0", subTonOnvifService.getYs().get(2));
     }
 }

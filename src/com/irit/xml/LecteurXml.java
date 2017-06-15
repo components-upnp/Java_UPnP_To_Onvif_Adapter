@@ -10,56 +10,15 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.HashMap;
 
 /**
  * Created by mkostiuk on 30/05/2017.
+ *
+ * Interface décrivant la méthode que doit impélmenter un lecteur XML.
+ * On pourra comme ça implémenter différents lecteurs XML selon le service UPnP par lequel
+ * est entré le message (entre autres quel type de composant est à l'origine du message).
  */
-public class LecteurXml {
-
-    private String udn;
-    private String commande;
-
-
-    public LecteurXml(String xml) throws ParserConfigurationException, SAXException, IOException {
-        SAXParserFactory spf = SAXParserFactory.newInstance();
-        SAXParser sp = spf.newSAXParser();
-
-        DefaultHandler handler = new DefaultHandler() {
-
-            boolean isUdn = false;
-            boolean isCommande = false;
-
-
-            @Override
-            public void startElement(String uri, String localName, String qName, Attributes attributes) {
-                if (qName.equalsIgnoreCase("UDN"))
-                    isUdn = true;
-                if (qName.equalsIgnoreCase("Commande"))
-                    isCommande = true;
-            }
-
-            @Override
-            public void characters(char ch[], int start, int length) {
-                if (isCommande) {
-                    isCommande = false;
-                    commande = new String(ch, start, length);
-                    System.err.println(commande);
-                }
-                if (isUdn) {
-                    isUdn = false;
-                    udn = new String(ch, start, length);
-                }
-            }
-        };
-        sp.parse(new InputSource(new StringReader(xml)), handler);
-    }
-
-    public String getUdn() {
-        return udn;
-    }
-
-    public String getCommande() {
-        return commande;
-    }
-
+public interface LecteurXml {
+    public HashMap<String,String> getResultat();
 }

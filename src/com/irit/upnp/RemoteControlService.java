@@ -1,12 +1,14 @@
 package com.irit.upnp;
 
 import com.irit.xml.LecteurXml;
+import com.irit.xml.LecteurXmlRemote;
 import org.fourthline.cling.binding.annotations.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by mkostiuk on 30/05/2017.
@@ -34,8 +36,9 @@ public class RemoteControlService {
     @UpnpAction(name = "SetCommande")
     public void setCommande(@UpnpInputArgument(name = "NewCommande") String c) throws IOException, SAXException, ParserConfigurationException {
 
-        LecteurXml l = new LecteurXml(c);
-        commande = l.getCommande();
+        LecteurXml l = new LecteurXmlRemote(c);
+        HashMap<String,String> args = l.getResultat();
+        commande = args.get("COMMANDE");
 
         getPropertyChangeSupport().firePropertyChange("Commande", "", commande);
     }

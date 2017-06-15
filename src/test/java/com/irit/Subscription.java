@@ -37,7 +37,8 @@ import java.util.Map;
 public class Subscription {
 
     private String serviceName;
-    private String status = new String("lol");
+    private ArrayList<String> Xs = new ArrayList<>();
+    private ArrayList<String> Ys = new ArrayList<>();
     private final UpnpService upnpService = new UpnpServiceImpl();
     private org.fourthline.cling.model.meta.RemoteService switchPower;
     private boolean deviceConnecte =  false;
@@ -120,14 +121,16 @@ public class Subscription {
                             Map<String, StateVariableValue> values = sub.getCurrentValues();
 
                             System.err.println(sub.getCurrentValues().keySet());
-                            if (values.containsKey("UdnEvent"))
-                                status = values.get("UdnEvent").toString();
-                            if (values.containsKey("commande"))
-                                status = values.get("commande").toString();
-
-
-
-                            System.out.println("Status is: " + status.toString());
+                            if (values.containsKey("X")) {
+                                String x = values.get("X").toString();
+                                Xs.add(values.get("X").toString());
+                                System.out.println("X = " +x);
+                            }
+                            if (values.containsKey("Y")) {
+                                String y = values.get("Y").toString();
+                                Ys.add(values.get("Y").toString());
+                                System.out.println("Y = " +y);
+                            }
 
                         }
 
@@ -219,8 +222,12 @@ public class Subscription {
         }
     }
 
-    public String getStatus() {
-        return status;
+    public ArrayList<String> getXs() {
+        return Xs;
+    }
+
+    public ArrayList<String> getYs() {
+        return Ys;
     }
 
     public UpnpService getUpnpService() {
