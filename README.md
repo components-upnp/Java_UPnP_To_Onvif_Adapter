@@ -19,12 +19,18 @@ Ce composant présente deux services UPnP, dont voici les descriptions:
 
     a) RemoteControlService :
     
-        1) SetCommande(String NewCommande) : reçoit une commande XML NewCommande et la convertit
+        1) SetCommande(String NewCommande) : reçoit une commande XML NewCommande et la convertit en une direction
+        (GAUCHE, DROITE, HAUT, BAS, AUCUNE)
         
-     Ce service ne fait que recevoir des évènements UPnP, il n'en produit pas.
+    b) DeviceOrientationControlService : 
+    
+        1) SetOrientationCommand(String newOrientationCommand) : reçoit une commande XML NewOrientationCommand et la convertit
+    en une orientation sur les axes X, Y et Z.
+        
+     Ces services ne font que recevoir des évènements UPnP, ils n'en produisent pas.
      
      
-    b) ToOnvifService :
+    c) ToOnvifService :
     
         1) ActionMove() : permet de spécifier que la caméra doit faire un mouvement. Envoie un évènement Move_Event
         2) SetX(String NewX) : prend en entrée la valeur de la direction que la caméra devra prendre sur l'axe X. 
@@ -35,7 +41,7 @@ Ce composant présente deux services UPnP, dont voici les descriptions:
        
 Voici le schéma représentant ce composant ainsi que ses services :
 
-![alt tag](https://github.com/components-upnp/Java_UPnP_To_Onvif_Adapter/blob/master/UPnPToOnvifAdapter.png)
+![alt tag](https://github.com/components-upnp/Java_UPnP_To_Onvif_Adapter/blob/master/upnpToOnvifAdapter(1).png)
        
 <strong>Maintenance : </strong>
 
